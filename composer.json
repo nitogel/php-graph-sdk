@@ -1,7 +1,6 @@
 {
     "name": "nitogel/php-graph-sdk",
     "description": "Facebook SDK for PHP",
-    "type": "library",
     "require": {
         "php": "^5.4|^7.0"
     },
