@@ -1,16 +1,5 @@
 {
-    "name": "facebook/graph-sdk",
-    "description": "Facebook SDK for PHP",
-    "keywords": ["facebook", "sdk"],
-    "type": "library",
-    "homepage": "https://github.com/facebook/php-graph-sdk",
-    "license": "Facebook Platform",
-    "authors": [
-        {
-            "name": "Facebook",
-            "homepage": "https://github.com/facebook/php-graph-sdk/contributors"
-        }
-    ],
+    "name": "nitogel/graph-sdk",
     "require": {
         "php": "^5.4|^7.0"
     },
@@ -32,11 +21,6 @@
     "autoload-dev": {
         "psr-4": {
             "Facebook\\Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "5.x-dev"
         }
     }
 }
