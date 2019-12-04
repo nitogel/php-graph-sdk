@@ -61,6 +61,21 @@ class Facebook
     const DEFAULT_GRAPH_VERSION = 'v2.10';
 
     /**
+     * @const string The name of the environment variable that contains the app ID.
+     */
+    const APP_ID_ENV_NAME = 'FACEBOOK_APP_ID';
+
+    /**
+     * @const string The name of the environment variable that contains the app secret.
+     */
+    const APP_SECRET_ENV_NAME = 'FACEBOOK_APP_SECRET';
+
+    /**
+     * @var FacebookApp The FacebookApp entity.
+     */
+    protected $app;
+
+    /**
      * @var FacebookClient The Facebook client service.
      */
     protected $client;
@@ -110,6 +125,8 @@ class Facebook
     public function __construct(array $config = [])
     {
         $config = array_merge([
+            'app_id' => getenv(static::APP_ID_ENV_NAME),
+            'app_secret' => getenv(static::APP_SECRET_ENV_NAME),
             'default_graph_version' => static::DEFAULT_GRAPH_VERSION,
             'enable_beta_mode' => false,
             'http_client_handler' => null,
@@ -118,6 +135,14 @@ class Facebook
             'url_detection_handler' => null,
         ], $config);
 
+        if (!$config['app_id']) {
+//            throw new FacebookSDKException('Required "app_id" key not supplied in config and could not find fallback environment variable "' . static::APP_ID_ENV_NAME . '"');
+        }
+        if (!$config['app_secret']) {
+//            throw new FacebookSDKException('Required "app_secret" key not supplied in config and could not find fallback environment variable "' . static::APP_SECRET_ENV_NAME . '"');
+        }
+
+//        $this->app = new FacebookApp($config['app_id'], $config['app_secret']);
         $this->client = new FacebookClient(
             HttpClientsFactory::createHttpClient($config['http_client_handler']),
             $config['enable_beta_mode']
@@ -139,6 +164,16 @@ class Facebook
     }
 
     /**
+     * Returns the FacebookApp entity.
+     *
+     * @return FacebookApp
+     */
+    public function getApp()
+    {
+        return $this->app;
+    }
+
+    /**
      * Returns the FacebookClient service.
      *
      * @return FacebookClient
@@ -146,6 +181,22 @@ class Facebook
     public function getClient()
     {
         return $this->client;
+    }
+
+    /**
+     * Returns the OAuth 2.0 client service.
+     *
+     * @return OAuth2Client
+     */
+    public function getOAuth2Client()
+    {
+        if (!$this->oAuth2Client instanceof OAuth2Client) {
+            $app = $this->getApp();
+            $client = $this->getClient();
+            $this->oAuth2Client = new OAuth2Client($app, $client, $this->defaultGraphVersion);
+        }
+
+        return $this->oAuth2Client;
     }
 
     /**
