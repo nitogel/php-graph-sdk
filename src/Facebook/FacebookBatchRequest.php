@@ -122,13 +122,13 @@ class FacebookBatchRequest extends FacebookRequest implements IteratorAggregate,
      */
     public function addFallbackDefaults(FacebookRequest $request)
     {
-        if (!$request->getApp()) {
-            $app = $this->getApp();
-            if (!$app) {
-                throw new FacebookSDKException('Missing FacebookApp on FacebookRequest and no fallback detected on FacebookBatchRequest.');
-            }
-            $request->setApp($app);
-        }
+//        if (!$request->getApp()) {
+//            $app = $this->getApp();
+//            if (!$app) {
+//                throw new FacebookSDKException('Missing FacebookApp on FacebookRequest and no fallback detected on FacebookBatchRequest.');
+//            }
+//            $request->setApp($app);
+//        }
 
         if (!$request->getAccessToken()) {
             $accessToken = $this->getAccessToken();
